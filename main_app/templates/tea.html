@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Home
+  {{ title }}
 {% endblock title %}
 
 {% block main %}
   <div>
     {% for tea in teas %}
-      <div>
-        {{ tea }} tea
-      </div>
+      <a href="{{ tea.id}}">
+        this is {{ tea }} tea.
+      </a>
 
 
     {% endfor %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock title %}
+
+{% block main %}
+  <div>
+    <form action="/tea/submit" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="name">
+      <label for="tea_type">Tea Type</label>
+      <input type="text" id="tea_type" placeholder="tea_type">
+      <label for="origin">Origin</label>
+      <input type="text" id="origin" placeholder="Unknown">
+      <input type="submit" value="submit"></input>
+    </form>
+  </div>
+{% endblock main %}
