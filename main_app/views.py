@@ -6,15 +6,15 @@ from .models import Tea
 class TeaCreate(CreateView):
     model = Tea
     fields = '__all__'
+    # template_name = "/templates/add_form.html"
 
 
 class TeaUpdate(UpdateView):
     model = Tea
-
     fields = ['name', "tea_type", 'origin', 'ingredients']
 
 
-class TeatDelete(DeleteView):
+class TeaDelete(DeleteView):
     model = Tea
     success_url = '/'
 
@@ -27,8 +27,8 @@ def home(request):
     })
 
 
-def tea(request, tea_id):
-    tea = Tea.objects.get(id=tea_id)
+def tea(request, pk):
+    tea = Tea.objects.get(id=pk)
     return render(request, "tea.html", {
         "title": "Tea",
         "tea": tea,
@@ -53,8 +53,8 @@ def add(request):
         return redirect("/tea/%s" % tea.id)
 
 
-def edit(request, tea_id):
-    tea = Tea.objects.get(id=tea_id)
+def edit(request, pk):
+    tea = Tea.objects.get(id=pk)
     if request.method == "GET":
         return render(request, "edit_tea.html", {
             "title": "Edit Tea",
@@ -73,6 +73,6 @@ def edit(request, tea_id):
         return redirect("/tea/%s" % tea.id)
 
 
-def delete(request, tea_id):
-    Tea.objects.get(id=tea_id).delete()
+def delete(request, pk):
+    Tea.objects.get(id=pk).delete()
     return redirect("/")

@@ -12,7 +12,7 @@ class Tea(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'tea_id': self.id})
+        return reverse('detail', kwargs={'pk': self.id})
 
 
 class Ingredients(models.Model):
