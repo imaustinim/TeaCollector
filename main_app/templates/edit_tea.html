@@ -10,78 +10,78 @@
     <div class="col-md">
       <div class="card">
         <div class="card-body">
-        <h5 class="card-title">Add Tea</h5>
-        <form action="/tea/add" method="POST">
+        <h5 class="card-title">Edit Tea</h5>
+        <form action="/tea/{{ tea.id }}/edit/" method="POST">
           {% csrf_token %}
           <div class="row">
             <div class="form-group col-md-6 my-2">
               <label for="title">Name</label>
-              <input type="text" class="form-control" id="title" name="name" placeholder="Honey Rose Jasmine Tea">
+              <input type="text" class="form-control" id="title" name="name" placeholder="Honey Rose Jasmine Tea" value="{{tea.name}}">
             </div>
             <div class="form-group col-md-6 my-2">
               <label for="origin">Origin</label>
-              <input type="text" class="form-control" id="origin" name="origin" placeholder="Taiwan">
+              <input type="text" class="form-control" id="origin" name="origin" placeholder="Taiwan" value="{{tea.origin}}">
             </div>
             <div class="col-md-6 my-2">
               <label for="title" class="d-flex justify-content-left">Tea Types</label>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="black tea">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Black Tea" {% if "Black Tea" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Black Tea</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="green tea">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Green Tea" {% if "Green Tea" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Green Tea</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="white tea">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="White Tea" {% if "White Tea" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">White Tea</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="jasmine">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Jasmine" {% if "Jasmine" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Jasmine</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="oolong">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Oolong" {% if "Oolong" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Oolong</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="matcha">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Matcha" {% if "Matcha" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Matcha</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="chai">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Chai" {% if "Chai" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Chai</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="rooibos">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Rooibos" {% if "Rooibos" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Rooibos</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="herbal">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Herbal" {% if "Herbal" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Herbal</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="fruit">
+                    <input type="checkbox" id="tea_type" name="tea_type" class="form-check-input" value="Fruit" {% if "Fruit" in tea.tea_type %} checked {% endif %}>
                     <label class="form-check-label" for="tea_type">Fruit</label>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="instructions">Ingredients</label>
-              <textarea type="text" class="form-control" id="instructions" rows="3" placeholder="Grass, feet, etc..." name="ingredients"></textarea>
+              <textarea type="text" class="form-control" id="instructions" rows="3" placeholder="" name="ingredients">{{tea.ingredients}}</textarea>
             </div>
             <div class="d-flex justify-content-center">
               <button type="submit" class="btn btn-success col-md-6">Submit</button>

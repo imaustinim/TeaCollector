@@ -5,13 +5,41 @@
 {% endblock title %}
 
 {% block main %}
-  <div>
-    {% for tea in teas %}
-      <div>
-        {{ tea }} tea
-      </div>
-
-
-    {% endfor %}
-  </div>
+    <div class="row mt-3 g-3">
+      {% for tea in teas %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex justify-content-center">
+                <a class="btn btn-light" href="/tea/{{ tea.id }}" role="button">
+                <h1 class="card-title">{{ tea.name }}</h1>
+                </a>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-12 my-2 d-flex justify-content-center">
+                  <a class="btn btn-success mx-1 p-1" href="/origins/" role="button">Origin</a>
+                  <a class="btn btn-outline-success mx-1 p-1" href="/origins/{{ tea.origin}}" role="button">{{ tea.origin }}</a>
+                </div>
+                {% comment %} <div class="form-group col-md-12 my-1 d-flex">
+                  <a class="btn btn-primary mx-1 p-1" href="/tea_type" role="button">Tea Types</a>
+                  {% for tea_type in tea_types %}
+                    <a class="btn btn-outline-primary mx-1 p-1" href="/tea_type/{{ tea_type }}" role="button">{{ tea_type }}</a>
+                  {% endfor %}
+                </div>
+                <div class="form-group col-md-12 my-1 d-flex">
+                  <a class="btn btn-secondary mx-1 p-1" href="/ingredients/" role="button">Ingredients</a>
+                  {% for ingredient in ingredients %}
+                    <a class="btn btn-outline-secondary mx-1 p-1" href="/ingredients/{{ ingredient }}" role="button">{{ ingredient }}</a>
+                  {% endfor %}
+                </div> {% endcomment %}
+                <div class="my-2 d-flex justify-content-center">
+                  <a class="btn btn-danger mx-1 p-1" href="/tea/{{ tea.id }}/edit" role="button">Edit</a>
+                  <a class="btn btn-danger mx-1 p-1" href="/tea/{{ tea.id }}/delete" role="button">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 {% endblock main %}
