@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Tea Details</h1>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ tea.name }}</span>
+        <p>Origin: {{ tea.origin }}</p>
+        <p>Description: {{ tea.description }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'teas_update' tea.id %}">Edit</a>
+        <a href="{% url 'teas_delete' tea.id %}">Delete</a>
+      </div>
+    </div>
+    <!-- Insert photo markup below this comment -->
+    {% for photo in cat.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{photo.url}}">
+    {% empty %}
+      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+    <form action="{% url 'add_photo' tea.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+      {% csrf_token %}
+      <input type="file" name="photo-file">
+      <br><br>
+      <input type="submit" class="btn" value="Upload Photo">
+    </form>
+  </div>
+  <div class="col s6">
+    <form action="{% url 'add_drink' tea.id %}" method="post">
+      {% csrf_token %}
+      {{ drink_form.as_p }}
+      <input type="submit" class="btn" value="Drink!">
+    </form>
+    <br>
+    {% if tea.drinks > 10 %}
+      <div class="card-panel teal-text center-align">You are now {{tea.getPercentage}} % tea.</div>
+    {% elif tea.drinks > 7 %}
+      <div class="card-panel teal-text center-align">You should pee...</div>
+    {% elif tea.drinks > 5 %}
+      <div class="card-panel red-text center-align">Woah slow down tiger.</div>
+    {% elif tea.drinks > 1 %}
+      <div class="card-panel red-text center-align">Drink some more {{tea.name}}!</div>
+    {% elif tea.drinks <= 1 %}
+      <div class="card-panel red-text center-align">Drink some {{tea.name}}!</div>
+    {% endif %}
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Drink</th></tr>
+      </thead>
+      <tbody>
+        {% for drink in tea.drink_set.all %}
+          <tr>
+            <td>{{drink.date}}</td>
+            <td>{{drink.get_drink_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr>
+<div class="row">
+  <div class="col s6">
+    <h3>{{ tea.name }}'s Ingredients</h3>
+    {% if tea.ingredients.count %}
+      {% for toy in cat.toys.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'home' cat.id toy.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No Toys :(</h5>
+    {% endif %}
+  </div>
+  <!-- Available toys will come after this line -->
+  <div class="col s6">
+    <h3>Available Toys</h3>
+    {% if toys.count %}
+      {% for toy in toys.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'home' cat.id toy.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{cat.name}} Already Has All Toys Available</h5>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- JS to create a date picker and init the meal dropdown -->
+<script>
+  // create a datepicker
+  var dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+
+  // initialize the meal select
+  var selectEl = document.getElementById('id_drink');
+  M.FormSelect.init(selectEl);
+</script>
+{% endblock %}

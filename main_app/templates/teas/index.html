@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Teas</h1>
+
+{% for tea in teas %}
+  <a href="{% url 'detail' tea.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ tea.name }}</span>
+            <p>Origin: {{ tea.origin }}</p>
+            {% comment %} <p>Description: {{ tea.te }}</p>
+            {% if cat.age > 0 %}
+                <p>Age: {{ cat.age }}</p>
+            {% else %}
+                <p>Age: Kitten</p>
+            {% endif %} {% endcomment %}
+        </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}
