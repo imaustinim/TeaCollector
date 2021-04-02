@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
-# from .models import Cat, Toy, Photo
 from .forms import DrinkForm
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
@@ -36,7 +35,7 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
-class TeaCreate(CreateView):
+class TeaCreate(LoginRequiredMixin, CreateView):
     model = Tea
     fields = ["name", "origin", "description"]
 
@@ -45,12 +44,12 @@ class TeaCreate(CreateView):
         return super().form_valid(form)
 
 
-class TeaUpdate(UpdateView):
+class TeaUpdate(LoginRequiredMixin, UpdateView):
     model = Tea
     fields = ['name', "tea_type", 'origin', 'ingredients']
 
 
-class TeaDelete(DeleteView):
+class TeaDelete(LoginRequiredMixin, DeleteView):
     model = Tea
     success_url = '/'
 
@@ -80,7 +79,6 @@ def teas(request):
 @login_required
 def tea(request, pk):
     tea = Tea.objects.get(id=pk)
-    # tea_type_not = Toy.objects.exclude(id__in = cat.toys.all().values_list('id'))
     missing_ingredients = Ingredients.objects.exclude(id__in=tea.ingredients.all().values_list("id"))
     drink_form = DrinkForm()
 
@@ -100,7 +98,6 @@ def add_drink(request, pk):
     # validate the form
     if form.is_valid():
         # don't save the form to the db until it
-        # has the cat_id assigned
         new_drink = form.save(commit=False)
         new_drink.tea_id = pk
         new_drink.save()
@@ -120,8 +117,7 @@ def add_photo(request, pk):
             s3.upload_fileobj(photo_file, BUCKET, key)
             # build the full url string
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            # we can assign to cat_id or cat (if you have a cat object)
-            photo = Photo(url=url, cat_id=cat_id)
+            photo = Photo(url=url, tea_id=pk)
             photo.save()
         except:
             print('An error occurred uploading file to S3')
@@ -167,3 +163,38 @@ def edit(request, pk):
 def delete(request, pk):
     Tea.objects.get(id=pk).delete()
     return redirect("/")
+
+
+@login_required
+def associate_ingredient(request, pk, fk):
+    Tea.objects.get(id=pk).ingredients.add(fk)
+    return redirect("detail", pk=pk)
+
+
+@login_required
+def unassociate_ingredient(request, pk, fk):
+    Tea.objects.get(id=pk).ingredients.remove(fk)
+    return redirect("detail", pk=pk)
+
+
+class IngredientsList(LoginRequiredMixin, ListView):
+    model = Ingredients
+
+
+class IngredientDetail(LoginRequiredMixin, DetailView):
+    model = Ingredients
+
+
+class IngredientCreate(LoginRequiredMixin, CreateView):
+    model = Ingredients
+    fields = '__all__'
+
+
+class IngredientUpdate(LoginRequiredMixin, UpdateView):
+    model = Ingredients
+    fields = ['name', 'quantity']
+
+
+class IngredientDelete(LoginRequiredMixin, DeleteView):
+    model = Ingredients
+    success_url = '/ingredients/'

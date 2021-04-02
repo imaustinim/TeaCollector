@@ -13,8 +13,13 @@ DRINKS = (
 
 class Ingredients(models.Model):
     name = models.CharField(max_length=30)
-    amount = models.FloatField(default=0)
-    measurement = models.CharField(max_length=30)
+    quantity = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('ingredients_detail', kwargs={'pk': self.id})
 
 
 class Tea_Type(models.Model):
@@ -87,3 +92,6 @@ class Drink(models.Model):
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     tea = models.ForeignKey(Tea, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for tea_id: {self.tea_id} @{self.url}"

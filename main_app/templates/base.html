@@ -21,10 +21,10 @@
         <ul class="right">
           <li><a href="{% url 'about' %}">About</a></li>
           {% if user.is_authenticated %}
-            {% comment %} <li><a href="{% url 'toys_create' %}">Add a Toy</a></li> {% endcomment %}
-            {% comment %} <li><a href="{% url 'toys_index' %}">View All Toys</a></li> {% endcomment %}
+            <li><a href="{% url 'ingredients_create' %}">Add ingredients</a></li>
+            <li><a href="{% url 'ingredients_index' %}">View All Ingredients</a></li>
             <li><a href="{% url 'teas_create' %}">Add Tea</a></li>
-            <li><a href="{% url 'index' %}">View All My Teas</a></li>
+            <li><a href="{% url 'index' %}">View My Teas</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
